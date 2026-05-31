@@ -1,7 +1,8 @@
 package com.burakcanaksoy.springbootpaginationspecification.product;
 
-import com.burakcanaksoy.springbootpaginationspecification.advanced.exception.AlreadyExistsException;
-import com.burakcanaksoy.springbootpaginationspecification.advanced.service.AbstractCrudService;
+
+import com.burakcanaksoy.common.advanced.exception.AlreadyExistsException;
+import com.burakcanaksoy.common.advanced.service.AbstractCrudService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

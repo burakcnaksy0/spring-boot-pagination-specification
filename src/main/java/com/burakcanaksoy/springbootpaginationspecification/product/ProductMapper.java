@@ -1,6 +1,6 @@
 package com.burakcanaksoy.springbootpaginationspecification.product;
 
-import com.burakcanaksoy.springbootpaginationspecification.advanced.BaseMapper;
+import com.burakcanaksoy.common.advanced.BaseMapper;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration

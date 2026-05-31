@@ -1,8 +1,9 @@
 package com.burakcanaksoy.springbootpaginationspecification.product;
 
 
-import com.burakcanaksoy.springbootpaginationspecification.advanced.ApiResponse;
-import com.burakcanaksoy.springbootpaginationspecification.advanced.controller.AbstractCrudController;
+
+import com.burakcanaksoy.common.advanced.ApiResponse;
+import com.burakcanaksoy.common.advanced.controller.AbstractCrudController;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

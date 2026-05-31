@@ -1,9 +1,10 @@
 package com.burakcanaksoy.springbootpaginationspecification.product;
 
 
-import com.burakcanaksoy.springbootpaginationspecification.advanced.BaseEntity;
+import com.burakcanaksoy.common.advanced.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
