@@ -1,7 +1,6 @@
 package com.burakcanaksoy.springbootpaginationspecification.product;
 
 
-
 import com.burakcanaksoy.common.advanced.ApiResponse;
 import com.burakcanaksoy.common.advanced.controller.AbstractCrudController;
 import org.springframework.data.domain.Page;
@@ -28,5 +27,11 @@ public class ProductController extends AbstractCrudController<ProductCreateReque
                                                                          @RequestParam(required = false) String sort){
         ApiResponse<Page<ProductResponse>> response = ApiResponse.success("Sayfalı olarak başarıyla listelendi", service.getAllForPage(pageNumber,pageSize,field,sort), HttpStatus.OK);
         return new ResponseEntity<>(response, response.getHttpStatus());
+    }
+
+    @GetMapping("/pageimpl")
+    public ResponseEntity<ApiResponse<Page<ProductResponse>>> getProducts(){
+        ApiResponse<Page<ProductResponse>> response = ApiResponse.success("Sayfalı olarak başarıyla listelendi", service.getForPage(),HttpStatus.OK);
+        return new ResponseEntity<>(response,response.getHttpStatus());
     }
 }
