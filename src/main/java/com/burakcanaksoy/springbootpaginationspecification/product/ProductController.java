@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/product")
 public class ProductController extends AbstractCrudController<ProductCreateRequest,ProductResponse,Long> {
@@ -32,6 +34,21 @@ public class ProductController extends AbstractCrudController<ProductCreateReque
     @GetMapping("/pageimpl")
     public ResponseEntity<ApiResponse<Page<ProductResponse>>> getProducts(){
         ApiResponse<Page<ProductResponse>> response = ApiResponse.success("Sayfalı olarak başarıyla listelendi", service.getForPage(),HttpStatus.OK);
+        return new ResponseEntity<>(response,response.getHttpStatus());
+    }
+
+    @GetMapping("/info")
+    public ResponseEntity<ApiResponse<Map<String,Object>>> info(){
+        ApiResponse<Map<String,Object>> response = ApiResponse.success("Bilgilendirme mesajı", service.info(),HttpStatus.OK);
+        return new ResponseEntity<>(response,response.getHttpStatus());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<Page<Product>>> searchAndPage(@RequestParam int page,
+                                                        @RequestParam int size,
+                                                        @RequestParam String field,
+                                                        @RequestParam String value){
+        ApiResponse<Page<Product>> response = ApiResponse.success("sesrch and page mesajı", service.searchAndPage(page,size,field,value),HttpStatus.OK);
         return new ResponseEntity<>(response,response.getHttpStatus());
     }
 }
