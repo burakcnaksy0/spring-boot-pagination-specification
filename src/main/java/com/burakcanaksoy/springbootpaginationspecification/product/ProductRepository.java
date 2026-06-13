@@ -3,10 +3,11 @@ package com.burakcanaksoy.springbootpaginationspecification.product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.math.BigDecimal;
 
-public interface ProductRepository extends JpaRepository<Product,Long> {
+public interface ProductRepository extends JpaRepository<Product,Long>, JpaSpecificationExecutor<Product> {
     boolean existsBySku(String sku);
 
     Page<Product> findByCategory(ProductCategory category, Pageable pageable);

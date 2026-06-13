@@ -5,6 +5,7 @@ import com.burakcanaksoy.common.advanced.exception.AlreadyExistsException;
 import com.burakcanaksoy.common.advanced.exception.ResourceNotFoundException;
 import com.burakcanaksoy.common.advanced.service.AbstractCrudService;
 import org.springframework.data.domain.*;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -111,10 +112,60 @@ public class ProductService extends AbstractCrudService<ProductCreateRequest, Pr
             }
 
             default: {
-                throw new IllegalArgumentException("Invalid field : "+ field);
+                throw new IllegalArgumentException("Invalid field : " + field);
             }
         }
         return saved;
+
+    }
+
+    public List<ProductResponse> spec(String sku,
+                                      String name,
+                                      BigDecimal price) {
+        Specification<Product> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
+        if (!name.isEmpty()) {
+            spec = spec.and(ProductSpecification.hasName(name));
+        }
+        if (!sku.isEmpty()) {
+            spec = spec.and(ProductSpecification.hasSku(sku));
+        }
+        if (price != null) {
+            spec = spec.and(ProductSpecification.hasPrice(price));
+        }
+        List<Product> list = repository.findAll(spec);
+        return mapper.mapToResponseList(list);
+
+    }
+
+    public List<ProductResponse> betweenPrice(BigDecimal minPrice, BigDecimal maxPrice) {
+        Specification<Product> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
+        spec = spec.and(ProductSpecification.betweenPrice(minPrice, maxPrice));
+        List<Product> list = repository.findAll(spec);
+        return mapper.mapToResponseList(list);
+    }
+
+    public List<ProductResponse> filter(ProductFilter filter) {
+        Specification<Product> spec = ProductSpecification.filter(filter);
+        List<Product> list = repository.findAll(spec);
+        return mapper.mapToResponseList(list);
+    }
+
+    public List<ProductResponse> getProductsWithFilterAndSort(String name, int page, int size, String sortField, String sortDirection) {
+        Specification<Product> specification = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
+        if (name != null && !name.isEmpty()) {
+            specification = specification.and(ProductSpecification.hasName(name));
+        }
+
+        Sort sort = sortDirection.equalsIgnoreCase("desc") ?
+                Sort.by(sortField).descending() :
+                Sort.by(sortField).ascending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+        Page<Product> products = repository.findAll(specification, pageable);
+        List<ProductResponse> productResponses = mapper.mapToResponseList(products.getContent());
+        //PageImpl<ProductResponse> responses = new PageImpl<>(productResponses, pageable, products.getTotalElements());
+        //return responses;
+        return productResponses;
 
     }
 }
